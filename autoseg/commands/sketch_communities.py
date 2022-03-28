@@ -32,6 +32,7 @@ def main(args):
     configs_dict = {'voldir': args.voldir, 'threads': args.threads, 'bin': args.bin, 'outdir': args.outdir, 'posp': args.posp, 'negp': args.negp, 'posp_factor': args.posp_factor, 'negp_factor': args.negp_factor}
 
     outdir = funcs.check_dir(args.outdir, make = True)
+    sketch_outdir = funcs.check_dir(args.outdir + '00_sketch/', make = True)
     voldir = funcs.check_dir(args.voldir)
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
     num_vols = len(vol_list)
@@ -66,7 +67,7 @@ def main(args):
         maxval = max(val1, val2)
         cutoffs_dict[(minval, maxval)] = (pos, neg)
     
-    utils.save_pkl(cutoffs_dict, outdir + '00_sketch_blocks/cutoffs_dict.pkl')
+    utils.save_pkl(cutoffs_dict, sketch_outdir + 'cutoffs_dict.pkl')
 
     print('using random subset to sketch communities')
 
@@ -89,9 +90,9 @@ def main(args):
     
     print('writing volumes and saving data')
     for i in blocks_dict.keys():
-        funcs.write_vol(i, blocks_dict, outdir + '00_sketch_blocks/', vol_list, union_voxels)
-    utils.save_pkl(blocks_dict, outdir + '00_sketch_blocks/blocks_dict.pkl')
-    utils.save_pkl(configs_dict, outdir + '00_sketch_blocks/config.pkl')
+        funcs.write_vol(i, blocks_dict, sketch_outdir, vol_list, union_voxels)
+    utils.save_pkl(blocks_dict, sketch_outdir + 'blocks_dict.pkl')
+    utils.save_pkl(configs_dict, sketch_outdir + 'config.pkl')
     
     t_final = time.time() - t0
     print(f'total run time: {t_final}s')
