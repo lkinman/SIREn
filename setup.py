@@ -14,7 +14,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'pysodist = autoseg.__main__:main',
+            'autoseg = autoseg.__main__:main',
         ],
     },
     include_package_data=True,
