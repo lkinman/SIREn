@@ -5,8 +5,6 @@ setuptools.setup(
     author="Laurel Kinman",
     author_email="lkinman@mit.edu",
     description="Statistical ",
-    long_description=long_description,
-    long_description_content_type="text/markdown",
     url="https://github.com/lkinman/autoseg",
     packages=setuptools.find_packages(),
     classifiers=[
