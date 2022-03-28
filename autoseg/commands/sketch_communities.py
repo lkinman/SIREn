@@ -31,7 +31,6 @@ def main(args):
     
     configs_dict = {'voldir': args.voldir, 'threads': args.threads, 'bin': args.bin, 'outdir': args.outdir, 'posp': args.posp, 'negp': args.negp, 'posp_factor': args.posp_factor, 'negp_factor': args.negp_factor}
 
-    outdir = funcs.check_dir(args.outdir, make = True)
     sketch_outdir = funcs.check_dir(args.outdir + '00_sketch/', make = True)
     voldir = funcs.check_dir(args.voldir)
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
@@ -46,6 +45,7 @@ def main(args):
 
     print('Calculating corrected p-values')
     corr_factor = comb(sample_num, 2)
+    print(corr_factor)
     posp_corr = 1-(args.posp/corr_factor)
     negp_corr = 1-(args.negp/corr_factor)
     num_trials = 1000
