@@ -18,7 +18,7 @@ from autoseg import funcs
 def add_args(parser):
     parser.add_argument('--config', type = str,  required = True, help = 'Path to sketch_communities.py config file')
     parser.add_argument('--blockdir', type = str, required = True, help = 'Path to directory where segmented blocks are stored')
-    parser.add_argument('--threads', type = str,  required = True, help = 'Number of threads for multiprocessing')
+    parser.add_argument('--threads', type = int,  required = True, help = 'Number of threads for multiprocessing')
     parser.add_argument('--exp_frac', type = float, default = 0.25, help = '')
     parser.add_argument('--posp', type = float, default = 0.01, help = 'P value threshold before Bonferroni correction for positive co-occupancy')
     parser.add_argument('--posp_factor', type = float, default = 2, help = 'Factor by which to multiply Bonferroni-corrected p-value for positive co-occupancy')
