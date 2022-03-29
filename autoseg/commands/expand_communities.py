@@ -30,6 +30,7 @@ def main(args):
     t0 = time.time()
     configs_dict = utils.load_pkl(args.config)
     outdir = funcs.check_dir(configs_dict['outdir'])
+    expand_outdir = funcs.check_dir(outdir + '02_expand', make = True)
     voldir = funcs.check_dir(configs_dict['voldir'])
     blockdir = funcs.check_dir(args.blockdir)
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
@@ -66,7 +67,7 @@ def main(args):
         maxval = max(val1, val2)
         cutoffs_dict[(minval, maxval)] = (pos, neg)
 
-    utils.save_pkl(cutoffs_dict, outdir + '02_expand/cutoffs_dict.pkl')
+    utils.save_pkl(cutoffs_dict, expand_outdir + 'cutoffs_dict.pkl')
 
     print('expanding communities with full voxel list')
     blocks_dict_expand = copy.deepcopy(blocks_dict)
@@ -93,9 +94,9 @@ def main(args):
     
     print('writing volumes and saving data')
     for i in blocks_dict_expand.keys():
-        funcs.write_vol(i, blocks_dict_expand, outdir, vol_list, union_voxels)
-    utils.save_pkl(blocks_dict_expand, outdir + '02_expand/blocks_dict_expand.pkl')
-    utils.save_pkl(configs_dict, outdir + '02_expand/config.pkl')
+        funcs.write_vol(i, blocks_dict_expand, expand_outdir, vol_list, union_voxels)
+    utils.save_pkl(blocks_dict_expand, expand_outdir + 'blocks_dict_expand.pkl')
+    utils.save_pkl(configs_dict, expand_outdir + 'config.pkl')
     t_final = time.time() - t0
     print(f'total run time: {t_final}s')
     
