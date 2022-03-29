@@ -42,7 +42,7 @@ def main(args):
     binned, union_voxels = funcs.binarize_vol_array(vol_list, num_vols, num_voxels, args.bin)
     totals = np.sum(binned, axis = 0)
     vals = range(0, len(union_voxels))
-    sample_num = int(len(union_voxels)/5)
+    sample_num = int(len(union_voxels)/3)
     rands = random.sample(vals, sample_num)
 
     print('Calculating corrected p-values')
@@ -88,6 +88,7 @@ def main(args):
             
     blocks_dict = {}
     for i, j in enumerate(nx.algorithms.community.label_propagation.label_propagation_communities(corr_graph)):
+        if len(list(j)) > 10:
         blocks_dict[i] = list(j)
     
     print('writing volumes and saving data')
