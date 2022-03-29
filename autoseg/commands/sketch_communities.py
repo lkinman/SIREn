@@ -30,7 +30,7 @@ def main(args):
     t0 = time.time()
     
     configs_dict = {'voldir': args.voldir, 'threads': args.threads, 'bin': args.bin, 'outdir': args.outdir, 'posp': args.posp, 'negp': args.negp, 'posp_factor': args.posp_factor, 'negp_factor': args.negp_factor}
-
+    outdir = funcs.check_dir(args.outdir, make = True)
     sketch_outdir = funcs.check_dir(args.outdir + '00_sketch/', make = True)
     voldir = funcs.check_dir(args.voldir)
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
