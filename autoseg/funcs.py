@@ -61,5 +61,5 @@ def read_blocks(block_dir, union_vox):
         block_num = int(i.split('_')[-1].split('.mrc')[0])
         block = mrc.parse_mrc(i)[0].flatten()
         block_vox = np.where(block == 1)[0]
-        blocks_dict[block_num] = np.where(np.isin(union_vox, block_vox))[0]
+        blocks_dict[block_num] = np.where(np.isin(union_vox, block_vox))[0].tolist()
     return blocks_dict
