@@ -89,7 +89,7 @@ def main(args):
     blocks_dict = {}
     for i, j in enumerate(nx.algorithms.community.label_propagation.label_propagation_communities(corr_graph)):
         if len(list(j)) > 10:
-        blocks_dict[i] = list(j)
+            blocks_dict[i] = list(j)
     
     print('writing volumes and saving data')
     for i in blocks_dict.keys():
