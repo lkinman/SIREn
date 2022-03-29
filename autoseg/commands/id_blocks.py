@@ -28,7 +28,7 @@ def main(args):
     num_vols = len(vol_list)
     boxsize = mrc.parse_mrc(vol_list[0])[0].shape[0]
     num_voxels = boxsize**3
-    binned, union_voxels = funcs.binarize_vol_array(vol_list, num_vols, num_voxels, args.bin)
+    binned, union_voxels = funcs.binarize_vol_array(vol_list, num_vols, num_voxels, configs_dict['bin'])
     blocks_dict = funcs.read_blocks(blockdir, union_voxels)
     for i in blocks_dict:
         occs = np.sum(binned[:, blocks_dict[i]], axis = 1)/len(blocks_dict[i])
