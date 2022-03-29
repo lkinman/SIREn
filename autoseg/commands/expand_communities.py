@@ -36,7 +36,7 @@ def main(args):
     num_vols = len(vol_list)
     boxsize = mrc.parse_mrc(vol_list[0])[0].shape[0]
     num_voxels = boxsize**3
-    binned, union_voxels = funcs.binarize_vol_array(vol_list, num_vols, num_voxels, args.bin)
+    binned, union_voxels = funcs.binarize_vol_array(vol_list, num_vols, num_voxels, configs_dict['bin'])
     totals = np.sum(binned, axis = 0)
     vals = range(0, len(union_voxels))
 
