@@ -31,7 +31,7 @@ def main(args):
     
     configs_dict = {'voldir': args.voldir, 'threads': args.threads, 'bin': args.bin, 'outdir': args.outdir, 'posp': args.posp, 'negp': args.negp, 'posp_factor': args.posp_factor, 'negp_factor': args.negp_factor}
     outdir = funcs.check_dir(args.outdir, make = True)
-    sketch_outdir = funcs.check_dir(args.outdir + '00_sketch/', make = True)
+    sketch_outdir = funcs.check_dir(outdir + '00_sketch/', make = True)
     voldir = funcs.check_dir(args.voldir)
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
     num_vols = len(vol_list)
@@ -88,7 +88,7 @@ def main(args):
             
     blocks_dict = {}
     for i, j in enumerate(nx.algorithms.community.label_propagation.label_propagation_communities(corr_graph)):
-        if len(list(j)) > 10:
+        if len(list(j)) > 3:
             blocks_dict[i] = list(j)
     
     print('writing volumes and saving data')
