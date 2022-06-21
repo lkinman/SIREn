@@ -36,6 +36,7 @@ Autoseg outputs a dictionary (saved as a .pkl file that can be loaded into the J
 
 ## Using  
 This software comprises 3 scripts and an additional interactive Jupyter notebook. The scripts:  
+
 **1) Select a random subset of the occupied voxels, identify statistically significant co-occupancy relationships between these voxels, and cluster them to produce initial blocks** 
  
 ```
