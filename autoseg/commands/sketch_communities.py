@@ -56,9 +56,9 @@ def main(args):
     comb_list = []
     for i in combinations(np.unique(totals), 2):
         f1, f2 = i
-        comb_list.append((f1, f2, num_trials, posp_corr, negp_corr))
+        comb_list.append((f1, f2, num_trials, posp_corr, negp_corr, num_vols))
     for i in np.unique(totals):
-        comb_list.append((i, i, num_trials, posp_corr, negp_corr))
+        comb_list.append((i, i, num_trials, posp_corr, negp_corr, num_vols))
     pool = Pool(args.threads)
     cutoffs = pool.map(funcs.find_cutoffs, comb_list)
     
