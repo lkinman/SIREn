@@ -6,12 +6,12 @@ Automated detection of structural blocks in cryo-EM volume ensembles
    
 ## Installing  
 First create a conda environment for autoseg, as shown below:
-'''
+```
 conda create --name autoseg python=3.9
 conda activate autoseg
 conda install pandas jupyterlab matplotlib scipy
 pip install networkx
-'''
+```
 
 The scripts also require a cryoDRGN installation; instructions for downloading cryoDRGN can be found [here](https://github.com/zhonge/cryodrgn). Note that you do not need to install the cryoDRGN dependencies. Autoseg is currently compatible with cryoDRGN v0.3.2. 
 
