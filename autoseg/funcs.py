@@ -22,18 +22,18 @@ def check_dir(dirname, make = False):
     return dirname
 
 def find_cutoffs(freqs):
-    freq1, freq2, n, p, q = freqs
-    x = np.zeros(500)
-    y = np.zeros(500)
+    freq1, freq2, n, p, q, v = freqs
+    x = np.zeros(v)
+    y = np.zeros(v)
     x[0:freq1] = 1
     y[0:freq2] = 1
-    tilex = np.zeros((n, 500))
-    tiley = np.zeros((n, 500))
+    tilex = np.zeros((n, v))
+    tiley = np.zeros((n, v))
     
     counter = 0
     while counter < n:
-        new_x = np.random.choice(x, size = (1, 500), replace = True)
-        new_y = np.random.choice(y, size = (1, 500), replace = True)
+        new_x = np.random.choice(x, size = (1, v), replace = True)
+        new_y = np.random.choice(y, size = (1, v), replace = True)
         tilex[counter, :] = new_x
         tiley[counter, :] = new_y
         counter += 1
