@@ -1,0 +1,2 @@
+1. Test statistical power -- recommendations for ensemble size? 
+2. Sweep parameters 
