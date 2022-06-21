@@ -63,3 +63,17 @@ def read_blocks(block_dir, union_vox):
         block_vox = np.where(block == 1)[0]
         blocks_dict[block_num] = np.where(np.isin(union_vox, block_vox))[0].tolist()
     return blocks_dict
+
+def calc_pval(freqs):
+    vox1, vox2, freq1, freq2, obs_pos, obs_neg, num_vols = freqs
+    p = binomtest(obs_pos, num_vols, p=freq1/num_vols*freq2/num_vols).pvalue
+    q = binomtest(obs_neg, num_vols, p=(1-freq1/num_vols)*(1-freq2/num_vols)).pvalue
+    pdir = 0
+    qdir = 0
+    if obs_pos > freq1*freq2/500:
+        pdir = 1
+    if obs_neg > (1-freq1)*(1-freq2)/500:
+        qdir = 1
+    return [vox1, vox2, p, q, pdir, qdir]
+
+
