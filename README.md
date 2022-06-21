@@ -75,18 +75,6 @@ The ```--posp```, ```---posp_factor```, ```--negp```, and ```--negp_factor``` fl
 **2) Query every voxel against each initial block to produce expanded blocks** 
   
 ```
-python gen_masks.py --help
-usage: gen_masks.py [-h] --mrc MRC --outdir OUTDIR [--extend EXTEND]
-
-optional arguments:
-  -h, --help       show this help message and exit
-  --mrc MRC        MRC file used for creating the mask
-  --outdir OUTDIR  Output directory to store the masks in
-  --extend EXTEND  Number of angstroms to extend initial mask by
-```  
- e.g.   
-   
- ```
 autoseg expand_communities --help
 usage: autoseg expand_communities [-h] --config CONFIG --blockdir BLOCKDIR
                                   --threads THREADS [--exp_frac EXP_FRAC]
@@ -109,7 +97,11 @@ optional arguments:
   --negp_factor NEGP_FACTOR
                         Factor by which to multiply Bonferroni-corrected
                         p-value for negative co-occupancy
-
+```  
+ e.g.   
+   
+ ```
+autoseg expand_communties --config 00_sketch/config.pkl --blockdir 00_sketch --threads 20
  ```  
 
 As before, the ```--posp```, ```--posp_factor```, ```--negp```, and ```--negp_factor``` parameters are tunable, as is the ```exp_frac``` value. 
