@@ -55,9 +55,9 @@ def main(args):
     pool = Pool(args.threads)
     for i in combinations(np.unique(totals), 2):
         f1, f2 = i
-        comb_list.append((f1, f2, num_trials, posp_corr_exp, negp_corr_exp))
+        comb_list.append((f1, f2, num_trials, posp_corr_exp, negp_corr_exp, num_vols))
     for i in np.unique(totals):
-        comb_list.append((i, i, num_trials, posp_corr_exp, negp_corr_exp))
+        comb_list.append((i, i, num_trials, posp_corr_exp, negp_corr_exp, num_vols))
     cutoffs = pool.map(funcs.find_cutoffs, comb_list)
     
     cutoffs_dict = {}
