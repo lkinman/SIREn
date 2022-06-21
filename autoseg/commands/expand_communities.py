@@ -19,7 +19,7 @@ def add_args(parser):
     parser.add_argument('--config', type = str,  required = True, help = 'Path to sketch_communities.py config file')
     parser.add_argument('--blockdir', type = str, required = True, help = 'Path to directory where segmented blocks are stored')
     parser.add_argument('--threads', type = int,  required = True, help = 'Number of threads for multiprocessing')
-    parser.add_argument('--exp_frac', type = float, default = 0.25, help = '')
+    parser.add_argument('--exp_frac', type = float, default = 0.75, help = '')
     parser.add_argument('--posp', type = float, default = 0.01, help = 'P value threshold before Bonferroni correction for positive co-occupancy')
     parser.add_argument('--posp_factor', type = float, default = 2, help = 'Factor by which to multiply Bonferroni-corrected p-value for positive co-occupancy')
     parser.add_argument('--negp', type = float, default = 0.05, help = 'P value threshold before Bonferroni correction for negative co-occupancy')
@@ -84,7 +84,7 @@ def main(args):
                 minvox = min(totals[[i, k]])
                 maxvox = max(totals[[i, k]])
                 pos_cutoff, neg_cutoff = cutoffs_dict[(minvox, maxvox)]
-                if (len(np.where(summed == 2)[0]) > pos_cutoff) and (len(np.where(summed == 0)[0]) > neg_cutoff): 
+                if (len(np.where(summed == 2)[0]) > args.posp_factor*pos_cutoff) and (len(np.where(summed == 0)[0]) > args.negp_factor*neg_cutoff): 
                     counter += 1
             if counter/len(blocks_dict[j]) >= args.exp_frac:
                 blocks_dict_expand[j].append(i) 
