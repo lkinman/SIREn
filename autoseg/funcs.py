@@ -32,10 +32,10 @@ def find_cutoffs(freqs):
     
     counter = 0
     while counter < n:
-        np.random.shuffle(x)
-        np.random.shuffle(y)
-        tilex[counter, :] = x
-        tiley[counter, :] = y
+        new_x = np.random.choice(x, size = (1, 500), replace = True)
+        new_y = np.random.choice(y, size = (1, 500), replace = True)
+        tilex[counter, :] = new_x
+        tiley[counter, :] = new_y
         counter += 1
     summed = tilex + tiley
     both_pos = np.array([len(np.where(summed[i, :] == 2)[0]) for i in range(0, n)])
