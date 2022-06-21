@@ -71,7 +71,7 @@ autoseg sketch_communities --voldir 00_aligned/epoch_29/reconstruct_000000/downs
 The ```--posp```, ```---posp_factor```, ```--negp```, and ```--negp_factor``` flags are tunable parameters; while we have set default values that typically work well, users may wish to screen a range of these values to find the optimal set of values for their data. In particular, loosening some of these parameters might be beneficial in cases of extensive conformational heterogeneity.
 
 
-**2) Query every voxel against each initial block to produce expanded blocks ** 
+**2) Query every voxel against each initial block to produce expanded blocks** 
   
 ```
 python gen_masks.py --help
