@@ -2,15 +2,15 @@ def main():
     import argparse
     import os
     parser = argparse.ArgumentParser(description=__doc__)
-    import autoseg
+    import siren
 
-    import autoseg.commands.sketch_communities
-    import autoseg.commands.expand_communities
-    import autoseg.commands.id_blocks
+    import siren.commands.sketch_communities
+    import siren.commands.expand_communities
+    import siren.commands.id_blocks
 
-    modules = [autoseg.commands.sketch_communities,
-               autoseg.commands.expand_communities,
-               autoseg.commands.id_blocks,
+    modules = [siren.commands.sketch_communities,
+               siren.commands.expand_communities,
+               siren.commands.id_blocks,
                ]
 
     subparsers = parser.add_subparsers(title='Choose a command')
