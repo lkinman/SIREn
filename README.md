@@ -1,4 +1,4 @@
-# SIREn (*S*ubunit *I*nference from *R*eal-space *En*sembles)
+# SIREn (**S**ubunit **I**nference from **R**eal-space **En**sembles)
 Automated detection of structural blocks in cryo-EM volume ensembles 
   
 ## Literature
