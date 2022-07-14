@@ -13,7 +13,7 @@ from cryodrgn import mrc
 from cryodrgn import utils
 from scipy.special import comb
 import networkx as nx
-from autoseg import funcs
+from siren import funcs
 
 def add_args(parser):
     parser.add_argument('--voldir', type = str, required = True, help = 'Directory where (downsampled) volumes are stored')
