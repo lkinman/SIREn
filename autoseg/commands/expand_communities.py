@@ -13,7 +13,7 @@ from cryodrgn import mrc
 from cryodrgn import utils
 from scipy.special import comb
 import networkx as nx
-from autoseg import funcs
+from siren import funcs
 
 def add_args(parser):
     parser.add_argument('--config', type = str,  required = True, help = 'Path to sketch_communities.py config file')
