@@ -1,4 +1,4 @@
-# SIREn (**S**ubunit **I**nference from **R**eal-space **En**sembles)
+# SIREn (*S*ubunit *I*nference from *R*eal-space *En*sembles)
 Automated detection of structural blocks in cryo-EM volume ensembles 
   
 ## Literature
@@ -19,7 +19,7 @@ It is also recommended that you install ChimeraX (install instructions can be fo
 
 To install the SIREn code, simply git clone the source code:
 ```
-git clone https://github.com/lkinman/siren.git
+git clone https://github.com/lkinman/SIREn.git
 cd siren
 python setup.py install
 ```
