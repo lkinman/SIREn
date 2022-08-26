@@ -1,11 +1,11 @@
 import setuptools
 setuptools.setup(
-    name="autoseg",
+    name="siren",
     version="0.0.0",
     author="Laurel Kinman",
     author_email="lkinman@mit.edu",
     description="Statistical ",
-    url="https://github.com/lkinman/autoseg",
+    url="https://github.com/lkinman/siren",
     packages=setuptools.find_packages(),
     classifiers=[
         "Programming Language :: Python :: 3",
@@ -14,7 +14,7 @@ setuptools.setup(
     ],
     entry_points={
         'console_scripts': [
-            'autoseg = autoseg.__main__:main',
+            'siren = siren.__main__:main',
         ],
     },
     include_package_data=True,
