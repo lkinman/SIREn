@@ -47,6 +47,7 @@ def main(args):
     print('Bootstrapping p-values for community expansion')
     block_lens = [len(blocks_dict[i]) for i in blocks_dict.keys()]
     corr_factor = len(vals)*np.sum(block_lens)
+    assert np.sum(block_lens) > 0, f'{np.sum(block_lens)} must be larger than zero i.e., there must be more than zero blocks for expand_communities.py to run'
     posp_corr_exp = 1-(args.posp/corr_factor)
     negp_corr_exp = 1-(args.negp/corr_factor)
 
