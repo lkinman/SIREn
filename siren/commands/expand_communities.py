@@ -33,6 +33,10 @@ def main(args):
     expand_outdir = funcs.check_dir(outdir + '02_expand', make = True)
     voldir = funcs.check_dir(configs_dict['voldir'])
     blockdir = funcs.check_dir(args.blockdir)
+    
+    assert posp_factor >= 1, 'Positive co-occupancy scaling factor must be >= 1'
+    assert negp_factor >= 1, 'Negative co-occupancy scaling factor must be >= 1'
+    
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
     num_vols = len(vol_list)
     boxsize = mrc.parse_mrc(vol_list[0])[0].shape[0]
@@ -85,7 +89,7 @@ def main(args):
                 minvox = min(totals[[i, k]])
                 maxvox = max(totals[[i, k]])
                 pos_cutoff, neg_cutoff = cutoffs_dict[(minvox, maxvox)]
-                if (len(np.where(summed == 2)[0]) > args.posp_factor*pos_cutoff) and (len(np.where(summed == 0)[0]) > args.negp_factor*neg_cutoff): 
+                if (len(np.where(summed == 2)[0]) > min(args.posp_factor*pos_cutoff, minvox)) and (len(np.where(summed == 0)[0]) > min(args.negp_factor*neg_cutoff, num_vols - maxvox)): 
                     counter += 1
             if counter/len(blocks_dict[j]) >= args.exp_frac:
                 blocks_dict_expand[j].append(i) 
