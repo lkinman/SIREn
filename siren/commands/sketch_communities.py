@@ -33,6 +33,10 @@ def main(args):
     outdir = funcs.check_dir(args.outdir, make = True)
     sketch_outdir = funcs.check_dir(outdir + '00_sketch/', make = True)
     voldir = funcs.check_dir(args.voldir)
+    
+    assert posp_factor >= 1, 'Positive co-occupancy scaling factor must be >= 1'
+    assert negp_factor >= 1, 'Negative co-occupancy scaling factor must be >= 1'
+    
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
     num_vols = len(vol_list)
     boxsize = mrc.parse_mrc(vol_list[0])[0].shape[0]
