@@ -8,7 +8,7 @@ def binarize_vol_array(vols_list, vols_num, voxels_num, bin_thr):
     for i, vol in enumerate(vols_list):
         vol_array[i] = mrc.parse_mrc(vol)[0].flatten()
     binned_array = np.where(vol_array > bin_thr, 1, 0)
-    union_vox = np.where(np.sum(binned_array, axis = 0) > 5)[0]
+    union_vox = np.where(np.sum(binned_array, axis = 0) > vols_num/100)[0]
     binned_array = binned_array[:, union_vox]
     binned_array = binned_array.astype('int')
     return binned_array, union_vox
