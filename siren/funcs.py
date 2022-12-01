@@ -70,9 +70,9 @@ def calc_pval(freqs):
     q = binomtest(obs_neg, num_vols, p=(1-freq1/num_vols)*(1-freq2/num_vols)).pvalue
     pdir = 0
     qdir = 0
-    if obs_pos > freq1*freq2/500:
+    if obs_pos > freq1*freq2/num_vols:
         pdir = 1
-    if obs_neg > (1-freq1)*(1-freq2)/500:
+    if obs_neg > (1-freq1)*(1-freq2)/num_vols:
         qdir = 1
     return [vox1, vox2, p, q, pdir, qdir]
 
