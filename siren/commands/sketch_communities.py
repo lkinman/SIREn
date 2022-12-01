@@ -83,7 +83,7 @@ def main(args):
         minvox = min(totals[[vox1, vox2]])
         maxvox = max(totals[[vox1, vox2]])
         pos_cutoff, neg_cutoff = cutoffs_dict[(minvox, maxvox)]
-        if (len(np.where(summed == 2)[0]) >args.posp_factor*pos_cutoff) and (len(np.where(summed == 0)[0]) > args.negp_factor*neg_cutoff): 
+        if (len(np.where(summed == 2)[0]) > min(args.posp_factor*pos_cutoff, minvox)) and (len(np.where(summed == 0)[0]) > min(args.negp_factor*neg_cutoff, num_vols - maxvox)): 
             corr_graph.add_edge(vox1, vox2)
             
     blocks_dict = {}
