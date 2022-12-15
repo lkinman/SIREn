@@ -4,6 +4,7 @@ import numpy as np
 import os
 import glob
 import time
+import re
 import matplotlib.pyplot as plt
 from itertools import combinations
 from multiprocessing import Pool
@@ -34,14 +35,12 @@ def main(args):
     voldir = funcs.check_dir(configs_dict['voldir'])
     blockdir = funcs.check_dir(args.blockdir)
     
-    assert posp_factor >= 1, 'Positive co-occupancy scaling factor must be >= 1'
-    assert negp_factor >= 1, 'Negative co-occupancy scaling factor must be >= 1'
-    
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
     num_vols = len(vol_list)
     boxsize = mrc.parse_mrc(vol_list[0])[0].shape[0]
     num_voxels = boxsize**3
     binned, union_voxels = funcs.binarize_vol_array(vol_list, num_vols, num_voxels, configs_dict['bin'])
+    map_array = funcs.create_mapping(vol_list, union_voxels)
     totals = np.sum(binned, axis = 0)
     vals = range(0, len(union_voxels))
 
@@ -51,7 +50,7 @@ def main(args):
     print('Bootstrapping p-values for community expansion')
     block_lens = [len(blocks_dict[i]) for i in blocks_dict.keys()]
     corr_factor = len(vals)*np.sum(block_lens)
-    assert np.sum(block_lens) > 0, f'{np.sum(block_lens)} must be larger than zero i.e., there must be more than zero blocks for expand_communities.py to run'
+    assert np.sum(block_lens) > 0, 'np.sum(block_lens) must be larger than zero i.e., there must be more than zero blocks for expand_communities.py to run'
     posp_corr_exp = 1-(args.posp/corr_factor)
     negp_corr_exp = 1-(args.negp/corr_factor)
 
@@ -83,13 +82,20 @@ def main(args):
         x = binned[:, i].astype('float')
         for j in blocks_dict.keys():
             counter = 0
+            block_centroid = np.median(np.array([re.findall('..', map_array[m]) for m in blocks_dict[j]]).astype('int'), axis = 0)
+            vox_dist = np.linalg.norm(np.array(re.findall('..', map_array[i])).astype('int') - block_centroid)
+            if vox_dist > 0:
+                posp_factor = 2 - 1/vox_dist**0.5 
+            else:
+                posp_factor = 1
+            negp_factor = 1
             for k in blocks_dict[j]:
                 y = binned[:, k].astype('float')
                 summed = x + y
                 minvox = min(totals[[i, k]])
                 maxvox = max(totals[[i, k]])
                 pos_cutoff, neg_cutoff = cutoffs_dict[(minvox, maxvox)]
-                if (len(np.where(summed == 2)[0]) > min(args.posp_factor*pos_cutoff, minvox)) and (len(np.where(summed == 0)[0]) > min(args.negp_factor*neg_cutoff, num_vols - maxvox)): 
+                if (len(np.where(summed == 2)[0]) > min(posp_factor*pos_cutoff, minvox)) and (len(np.where(summed == 0)[0]) > min(negp_factor*neg_cutoff, num_vols - maxvox)): 
                     counter += 1
             if counter/len(blocks_dict[j]) >= args.exp_frac:
                 blocks_dict_expand[j].append(i) 
@@ -102,6 +108,7 @@ def main(args):
         funcs.write_vol(i, blocks_dict_expand, expand_outdir, vol_list, union_voxels)
     utils.save_pkl(blocks_dict_expand, expand_outdir + 'blocks_dict_expand.pkl')
     utils.save_pkl(configs_dict, expand_outdir + 'config.pkl')
+    utils.save_pkl(unadded_list, expanded_outdir + 'unadded_list.pkl')
     t_final = time.time() - t0
     print(f'total run time: {t_final}s')
     
