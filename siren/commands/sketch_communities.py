@@ -14,6 +14,7 @@ from cryodrgn import utils
 from scipy.special import comb
 import networkx as nx
 from siren import funcs
+import re
 
 def add_args(parser):
     parser.add_argument('--voldir', type = str, required = True, help = 'Directory where (downsampled) volumes are stored')
@@ -21,9 +22,7 @@ def add_args(parser):
     parser.add_argument('--bin', type = float, default = None, help = 'Threshold at which to binarize maps')
     parser.add_argument('--outdir', type = str, default = './', help = 'Directory where outputs will be stored')
     parser.add_argument('--posp', type = float, default = 0.01, help = 'P value threshold before Bonferroni correction for positive co-occupancy')
-    parser.add_argument('--posp_factor', type = float, default = 2, help = 'Factor by which to multiply Bonferroni-corrected p-value for positive co-occupancy')
     parser.add_argument('--negp', type = float, default = 0.05, help = 'P value threshold before Bonferroni correction for negative co-occupancy')
-    parser.add_argument('--negp_factor', type = float, default = 1, help = 'Factor by which to multiply Bonferroni-corrected p-value for negative co-occupancy')
     return parser
 
 def main(args):
@@ -33,17 +32,13 @@ def main(args):
     outdir = funcs.check_dir(args.outdir, make = True)
     sketch_outdir = funcs.check_dir(outdir + '00_sketch/', make = True)
     voldir = funcs.check_dir(args.voldir)
-    
-    assert posp_factor >= 1, 'Positive co-occupancy scaling factor must be >= 1'
-    assert negp_factor >= 1, 'Negative co-occupancy scaling factor must be >= 1'
-    
+
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
     num_vols = len(vol_list)
     boxsize = mrc.parse_mrc(vol_list[0])[0].shape[0]
     num_voxels = boxsize**3
-    print(num_voxels)
-    print(len(vol_list))
     binned, union_voxels = funcs.binarize_vol_array(vol_list, num_vols, num_voxels, args.bin)
+    map_array = funcs.create_mapping(vol_list, union_voxels)
     totals = np.sum(binned, axis = 0)
     vals = range(0, len(union_voxels))
     sample_num = int(len(union_voxels)/3)
@@ -86,8 +81,11 @@ def main(args):
         summed = x + y
         minvox = min(totals[[vox1, vox2]])
         maxvox = max(totals[[vox1, vox2]])
+        vox_dist = np.linalg.norm(np.array(re.findall('..', map_array[vox1])).astype('int') - np.array(re.findall('..', map_array[vox2])).astype('int'))
+        posp_factor = 2 - 1/vox_dist**0.5
+        negp_factor = 1 
         pos_cutoff, neg_cutoff = cutoffs_dict[(minvox, maxvox)]
-        if (len(np.where(summed == 2)[0]) > min(args.posp_factor*pos_cutoff, minvox)) and (len(np.where(summed == 0)[0]) > min(args.negp_factor*neg_cutoff, num_vols - maxvox)): 
+        if (len(np.where(summed == 2)[0]) > min(posp_factor*pos_cutoff, minvox)) and (len(np.where(summed == 0)[0]) > min(negp_factor*neg_cutoff, num_vols - maxvox)): 
             corr_graph.add_edge(vox1, vox2)
             
     blocks_dict = {}
