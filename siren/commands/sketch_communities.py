@@ -93,6 +93,10 @@ def main(args):
         if len(list(j)) > 3:
             blocks_dict[i] = list(j)
     
+    fig, ax = plt.subplots(1, figsize = (30, 10))
+    nx.draw_networkx(corr_graph, pos = nx.spring_layout(corr_graph), node_size = 30, with_labels = False)
+    fig.savefig(sketch_outdir + 'corr_graph.pdf')
+    
     print('writing volumes and saving data')
     for i in blocks_dict.keys():
         funcs.write_vol(i, blocks_dict, sketch_outdir, vol_list, union_voxels)
