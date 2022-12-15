@@ -76,4 +76,11 @@ def calc_pval(freqs):
         qdir = 1
     return [vox1, vox2, p, q, pdir, qdir]
 
-
+def create_mapping(vols_list, union_vox):
+    mapping = mrc.parse_mrc(vols_list[0])[0].astype('str')
+    for i1, i2 in enumerate(mapping):
+        for j1, j2 in enumerate(i2):
+            for k1, k2 in enumerate(j2):
+                mapping[i1,j1,k1] = ''.join([str(m).zfill(2) for m in [i1, j1, k1]]) 
+    mapping = mapping.flatten()[union_vox]
+    return mapping
