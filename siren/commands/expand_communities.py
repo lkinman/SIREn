@@ -22,9 +22,7 @@ def add_args(parser):
     parser.add_argument('--threads', type = int,  required = True, help = 'Number of threads for multiprocessing')
     parser.add_argument('--exp_frac', type = float, default = 0.75, help = '')
     parser.add_argument('--posp', type = float, default = 0.01, help = 'P value threshold before Bonferroni correction for positive co-occupancy')
-    parser.add_argument('--posp_factor', type = float, default = 2, help = 'Factor by which to multiply Bonferroni-corrected p-value for positive co-occupancy')
     parser.add_argument('--negp', type = float, default = 0.05, help = 'P value threshold before Bonferroni correction for negative co-occupancy')
-    parser.add_argument('--negp_factor', type = float, default = 1, help = 'Factor by which to multiply Bonferroni-corrected p-value for negative co-occupancy')
     return parser
 
 def main(args):
