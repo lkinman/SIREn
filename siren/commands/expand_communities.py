@@ -106,7 +106,7 @@ def main(args):
         funcs.write_vol(i, blocks_dict_expand, expand_outdir, vol_list, union_voxels)
     utils.save_pkl(blocks_dict_expand, expand_outdir + 'blocks_dict_expand.pkl')
     utils.save_pkl(configs_dict, expand_outdir + 'config.pkl')
-    utils.save_pkl(unadded_list, expanded_outdir + 'unadded_list.pkl')
+    utils.save_pkl(unadded_list, expand_outdir + 'unadded_list.pkl')
     t_final = time.time() - t0
     print(f'total run time: {t_final}s')
     
