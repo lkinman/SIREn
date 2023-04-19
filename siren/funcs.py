@@ -45,14 +45,14 @@ def find_cutoffs(freqs):
     
     return (freq1, freq2, pos_cutoff, neg_cutoff)
 
-def write_vol(sel, dictionary, out_dir, vollist, voxels):
+def write_vol(sel, dictionary, out_dir, vollist, voxels, boxsize):
     outfile = f'{out_dir}/block_{str(sel)}.mrc'
     data, head = mrc.parse_mrc(vollist[0])
     corrgroup = voxels[dictionary[sel]]
     data[:] = 0
     data = data.flatten()
     data[corrgroup] = 1
-    mrc.write(outfile, data.reshape(64, 64, 64), header = head)
+    mrc.write(outfile, data.reshape(boxsize, boxsize, boxsize), header = head)
     return outfile
 
 def read_blocks(block_dir, union_vox):
