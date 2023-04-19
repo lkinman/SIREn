@@ -99,7 +99,7 @@ def main(args):
     
     print('writing volumes and saving data')
     for i in blocks_dict.keys():
-        funcs.write_vol(i, blocks_dict, sketch_outdir, vol_list, union_voxels)
+        funcs.write_vol(i, blocks_dict, sketch_outdir, vol_list, union_voxels, boxsize)
     utils.save_pkl(blocks_dict, sketch_outdir + 'blocks_dict.pkl')
     utils.save_pkl(configs_dict, sketch_outdir + 'config.pkl')
     
