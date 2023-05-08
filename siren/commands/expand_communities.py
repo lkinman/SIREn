@@ -21,6 +21,7 @@ def add_args(parser):
     parser.add_argument('--blockdir', type = str, required = True, help = 'Path to directory where segmented blocks are stored')
     parser.add_argument('--threads', type = int,  required = True, help = 'Number of threads for multiprocessing')
     parser.add_argument('--exp_frac', type = float, default = 0.75, help = '')
+    parser.add_argument('--apix', type = float, required = True, help = 'Angstroms per pixel of input volumes')
     parser.add_argument('--posp', type = float, default = 0.01, help = 'P value threshold before Bonferroni correction for positive co-occupancy')
     parser.add_argument('--negp', type = float, default = 0.05, help = 'P value threshold before Bonferroni correction for negative co-occupancy')
     return parser
@@ -81,9 +82,13 @@ def main(args):
         for j in blocks_dict.keys():
             counter = 0
             block_centroid = np.median(np.array([re.findall('..', map_array[m]) for m in blocks_dict[j]]).astype('int'), axis = 0)
-            vox_dist = np.linalg.norm(np.array(re.findall('..', map_array[i])).astype('int') - block_centroid)
+            vox_dist = np.linalg.norm(np.array(re.findall('..', map_array[i])).astype('int') - block_centroid)*args.apix
             if vox_dist > 0:
-                posp_factor = 2 - 1/vox_dist**0.5 
+                #posp_factor = 2 - 1/vox_dist**0.5
+                if vox_dist < 40:
+                    posp_factor = max(1.25, 0.02*vox_dist+0.95)
+                else:
+                    posp_factor = 1.75
             else:
                 posp_factor = 1
             negp_factor = 1
