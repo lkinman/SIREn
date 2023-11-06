@@ -6,11 +6,17 @@ def main():
 
     import siren.commands.sketch_communities
     import siren.commands.expand_communities
-    import siren.commands.id_blocks
+    import siren.commands.preprocess
+    import siren.commands.fine_tune
+    import siren.commands.train
+    import siren.commands.eval_model
 
     modules = [siren.commands.sketch_communities,
                siren.commands.expand_communities,
-               siren.commands.id_blocks,
+               siren.commands.preprocess,
+               siren.commands.fine_tune,
+               siren.commands.train,
+               siren.commands.eval_model
                ]
 
     subparsers = parser.add_subparsers(title='Choose a command')
