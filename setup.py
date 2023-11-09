@@ -23,7 +23,9 @@ setuptools.setup(
         'pandas>=1.1.3',
         'numpy>=1.19.2',
         'networkx>=2.6.3',
-        'matplotlib>=3.0.0'
-        'cryodrgn>=0.2.0']
+        'matplotlib>=3.0.0',
+        'torch',
+        'mrcfile',
+        'natsort']
 
 )

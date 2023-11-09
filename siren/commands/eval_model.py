@@ -10,18 +10,17 @@ import glob
 import pandas as pd
 import argparse
 torch.manual_seed(42)  
-from modules import model_cnn
 import matplotlib.pyplot as plt
 import logging
 from natsort import natsorted
-from siren import utils
+from siren import utils, model_cnn
 import warnings 
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] - %(message)s")
 
-def parse_args(parser):
+def add_args(parser):
 
     parser.add_argument("-vol_dir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
     parser.add_argument("-normalize_csv", type=os.path.abspath, required=True, help="map_stats.csv (either downsampled or raw map stats)")
@@ -99,8 +98,7 @@ def main(args):
         plt.show()
 
 if __name__ == '__main__':    
-    parser = argparse.ArgumentParser(description=__doc__)
-    args = parse_args(parser).parse_args()  
-    main(args)
+    parser = argparse.ArgumentParser()
+    main(add_args(parser).parse_args())
 
 

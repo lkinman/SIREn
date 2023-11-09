@@ -8,8 +8,6 @@ from itertools import combinations
 from multiprocessing import Pool
 import copy
 import random
-from cryodrgn import mrc
-from cryodrgn import utils
 from scipy.special import comb
 import networkx as nx
 from siren import funcs

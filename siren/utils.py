@@ -8,7 +8,17 @@ import torch
 torch.manual_seed(42)  
 import logging
 logging.basicConfig(format='%(asctime)s | %(message)s', level=logging.NOTSET)
+import pickle
 
+def dump_pkl(data, filename):
+    with open(filename, 'wb') as f:
+        pickle.dump(data, f)
+    return
+
+def load_pkl(filename):
+    with open(filename, 'rb') as f:
+        data = pickle.load(f)
+    return data
 
 def load_vol(filename):
     with mrcfile.open(filename, 'r', permissive=True) as mrc:

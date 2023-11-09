@@ -1,17 +1,45 @@
 import numpy as np
-from cryodrgn import mrc
+import pandas as pd
+from siren import utils
+import mrcfile
 import os 
 import glob
+import pickle 
 
-def binarize_vol_array(vols_list, vols_num, voxels_num, bin_thr):
+def binarize_vol_array(vols_list, vols_num, voxels_num, bin_thr, filter_bin = False):
     vol_array = np.zeros((vols_num, voxels_num))
-    for i, vol in enumerate(vols_list):
-        vol_array[i] = mrc.parse_mrc(vol)[0].flatten()
-    binned_array = np.where(vol_array > bin_thr, 1, 0)
+    if type(bin_thr) == float:
+        vols_added = None
+        for i, vol in enumerate(vols_list):
+            vol_array[i] = utils.load_vol(vol)[0].flatten()
+        binned_array = np.where(vol_array > bin_thr, 1, 0)
+    elif type(bin_thr) == str:
+        vols_added = [] 
+        bin_thr = pd.read_csv(bin_thr, index_col = 0)
+        bin_thr = bin_thr.set_index('vol_id')
+        avg = np.mean(bin_thr['denormalized_predictions'])
+        std=np.std(bin_thr['denormalized_predictions'])
+        for i, vol in enumerate(vols_list):
+            vol_num = int(vol.split('_')[-1].split('.mrc')[0])
+            vol_thr = bin_thr.loc[vol_num, 'denormalized_predictions']
+            if filter_bin:
+                if (vol_thr <= avg + 2*std) and (vol_thr >= avg - 2*std):
+                    data = utils.load_vol(vol)[0].flatten()
+                    data = np.where(data > vol_thr, 1, 0)
+                    vol_array[i] = data
+                    vols_added.append(vol_num)
+                else:
+                    print(f'vol_{vol_num} omitted')
+            else:
+                data = utils.load_vol(vol)[0].flatten()
+                data = np.where(data > vol_thr, 1, 0)
+                vol_array[i] = data
+        vol_array = pd.DataFrame(vol_array)
+        binned_array = vol_array.loc[~(vol_array==0).all(axis=1)].values
     union_vox = np.where(np.sum(binned_array, axis = 0) > vols_num/100)[0]
     binned_array = binned_array[:, union_vox]
     binned_array = binned_array.astype('int')
-    return binned_array, union_vox
+    return binned_array, union_vox, vols_added
 
 def check_dir(dirname, make = False):
     if not dirname.endswith('/'):
@@ -45,21 +73,26 @@ def find_cutoffs(freqs):
     
     return (freq1, freq2, pos_cutoff, neg_cutoff)
 
-def write_vol(sel, dictionary, out_dir, vollist, voxels, boxsize):
+def write_vol(sel, dictionary, out_dir, vollist, voxels, boxsize, apix):
     outfile = f'{out_dir}/block_{str(sel)}.mrc'
-    data, head = mrc.parse_mrc(vollist[0])
+    with mrcfile.open(vollist[0], 'r', permissive = True) as mrc:
+        #data = mrc.data
+        head = mrc.header
     corrgroup = voxels[dictionary[sel]]
-    data[:] = 0
-    data = data.flatten()
-    data[corrgroup] = 1
-    mrc.write(outfile, data.reshape(boxsize, boxsize, boxsize), header = head)
+    new_data = np.zeros((boxsize, boxsize, boxsize))
+    new_data = new_data.flatten()
+    new_data[corrgroup] = 1
+    with mrcfile.new(outfile, overwrite = True) as mrc:
+        mrc.set_data(new_data.reshape(boxsize, boxsize, boxsize).astype('float32'))
+        mrc.set_extended_header(head)
+        mrc.voxel_size = apix
     return outfile
 
 def read_blocks(block_dir, union_vox):
     blocks_dict = {}
     for i in glob.glob(block_dir + '*.mrc'):
         block_num = int(i.split('_')[-1].split('.mrc')[0])
-        block = mrc.parse_mrc(i)[0].flatten()
+        block = utils.load_vol(i)[0].flatten()
         block_vox = np.where(block == 1)[0]
         blocks_dict[block_num] = np.where(np.isin(union_vox, block_vox))[0].tolist()
     return blocks_dict
@@ -77,7 +110,7 @@ def calc_pval(freqs):
     return [vox1, vox2, p, q, pdir, qdir]
 
 def create_mapping(vols_list, union_vox):
-    mapping = mrc.parse_mrc(vols_list[0])[0].astype('str')
+    mapping = utils.load_vol(vols_list[0])[0].astype('str')
     for i1, i2 in enumerate(mapping):
         for j1, j2 in enumerate(i2):
             for k1, k2 in enumerate(j2):

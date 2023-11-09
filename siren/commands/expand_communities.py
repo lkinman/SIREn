@@ -10,20 +10,18 @@ from itertools import combinations
 from multiprocessing import Pool
 import copy
 import random
-from cryodrgn import mrc
-from cryodrgn import utils
 from scipy.special import comb
 import networkx as nx
-from siren import funcs
+from siren import funcs, utils
 
 def add_args(parser):
     parser.add_argument('--config', type = str,  required = True, help = 'Path to sketch_communities.py config file')
     parser.add_argument('--blockdir', type = str, required = True, help = 'Path to directory where segmented blocks are stored')
     parser.add_argument('--threads', type = int,  required = True, help = 'Number of threads for multiprocessing')
-    parser.add_argument('--exp_frac', type = float, default = 0.75, help = '')
-    parser.add_argument('--apix', type = float, required = True, help = 'Angstroms per pixel of input volumes')
+    parser.add_argument('--exp_frac', type = float, default = 0.25, help = '')
     parser.add_argument('--posp', type = float, default = 0.01, help = 'P value threshold before Bonferroni correction for positive co-occupancy')
     parser.add_argument('--negp', type = float, default = 0.05, help = 'P value threshold before Bonferroni correction for negative co-occupancy')
+    parser.add_argument('--filter', action = 'store_true', help = 'If predicted binarization file is supplied, this flag indicates that volumes should be filtered by avg +/- 2 std of predicted threshold')
     return parser
 
 def main(args):
@@ -34,14 +32,20 @@ def main(args):
     voldir = funcs.check_dir(configs_dict['voldir'])
     blockdir = funcs.check_dir(args.blockdir)
     
+    if args.filter:
+        filter_vols = True
+    else:
+        filter_vols = False
+
     vol_list = np.sort(glob.glob(voldir + '*.mrc'))
-    num_vols = len(vol_list)
-    boxsize = mrc.parse_mrc(vol_list[0])[0].shape[0]
+    num_vols_orig = len(vol_list)
+    boxsize = utils.load_vol(vol_list[0])[0].shape[0]
     num_voxels = boxsize**3
-    binned, union_voxels = funcs.binarize_vol_array(vol_list, num_vols, num_voxels, configs_dict['bin'])
+    binned, union_voxels, vols_added = funcs.binarize_vol_array(vol_list, num_vols_orig, num_voxels, configs_dict['bin'], filter_bin = filter_vols)
     map_array = funcs.create_mapping(vol_list, union_voxels)
     totals = np.sum(binned, axis = 0)
     vals = range(0, len(union_voxels))
+    num_vols = len(binned)
 
     print('read in segmentation-masked blocks')
     blocks_dict = funcs.read_blocks(blockdir, union_voxels)
@@ -70,7 +74,7 @@ def main(args):
         maxval = max(val1, val2)
         cutoffs_dict[(minval, maxval)] = (pos, neg)
 
-    utils.save_pkl(cutoffs_dict, expand_outdir + 'cutoffs_dict.pkl')
+    utils.dump_pkl(cutoffs_dict, expand_outdir + 'cutoffs_dict.pkl')
 
     print('expanding communities with full voxel list')
     blocks_dict_expand = copy.deepcopy(blocks_dict)
@@ -82,9 +86,8 @@ def main(args):
         for j in blocks_dict.keys():
             counter = 0
             block_centroid = np.median(np.array([re.findall('..', map_array[m]) for m in blocks_dict[j]]).astype('int'), axis = 0)
-            vox_dist = np.linalg.norm(np.array(re.findall('..', map_array[i])).astype('int') - block_centroid)*args.apix
+            vox_dist = np.linalg.norm(np.array(re.findall('..', map_array[i])).astype('int') - block_centroid)*configs_dict['apix']
             if vox_dist > 0:
-                #posp_factor = 2 - 1/vox_dist**0.5
                 if vox_dist < 40:
                     posp_factor = max(1.25, 0.02*vox_dist+0.95)
                 else:
@@ -108,10 +111,10 @@ def main(args):
     
     print('writing volumes and saving data')
     for i in blocks_dict_expand.keys():
-        funcs.write_vol(i, blocks_dict_expand, expand_outdir, vol_list, union_voxels, boxsize)
-    utils.save_pkl(blocks_dict_expand, expand_outdir + 'blocks_dict_expand.pkl')
-    utils.save_pkl(configs_dict, expand_outdir + 'config.pkl')
-    utils.save_pkl(unadded_list, expand_outdir + 'unadded_list.pkl')
+        funcs.write_vol(i, blocks_dict_expand, expand_outdir, vol_list, union_voxels, boxsize, configs_dict['apix'])
+    utils.dump_pkl(blocks_dict_expand, expand_outdir + 'blocks_dict_expand.pkl')
+    utils.dump_pkl(configs_dict, expand_outdir + 'config.pkl')
+    utils.dump_pkl(unadded_list, expand_outdir + 'unadded_list.pkl')
     t_final = time.time() - t0
     print(f'total run time: {t_final}s')
     

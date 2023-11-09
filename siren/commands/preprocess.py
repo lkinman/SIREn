@@ -18,7 +18,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 
 logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] - %(message)s")
 
-def parse_args(parser):
+def add_args(parser):
 
     parser.add_argument("-vol_dir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
     parser.add_argument("-labels", type=os.path.abspath, required=False, help="User-annotated labels for downsampled (non-normalized) volumes for normalization")
@@ -108,6 +108,5 @@ def main(args):
 
 
 if __name__ == '__main__':    
-    parser = argparse.ArgumentParser(description=__doc__)
-    args = parse_args(parser).parse_args()
-    main(args)
+    parser = argparse.ArgumentParser()
+    main(add_args(parser).parse_args())

@@ -20,7 +20,7 @@ warnings.filterwarnings("ignore", category=RuntimeWarning)
 logging.basicConfig(format='%(asctime)s | %(message)s', level=logging.NOTSET)
 
 
-def parse_args(parser):
+def add_args(parser):
 
     parser.add_argument("-vol_dir", type=os.path.abspath, required=True, help="Path to subset of downsampled and normalized input volumes")
     parser.add_argument("-labels_csv", type=os.path.abspath, required=True, help="Path to .csv containing subset of normalized labels")
@@ -82,6 +82,5 @@ def main(args):
 
 
 if __name__ == '__main__':    
-    parser = argparse.ArgumentParser(description=__doc__)
-    args = parse_args(parser).parse_args()
-    main(args)
+    parser = argparse.ArgumentParser()
+    main(add_args(parser).parse_args())
