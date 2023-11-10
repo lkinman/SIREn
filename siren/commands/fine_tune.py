@@ -22,7 +22,7 @@ logging.basicConfig(format='%(asctime)s | %(message)s', level=logging.NOTSET)
 
 def add_args(parser):
 
-    parser.add_argument("-vol_dir", type=os.path.abspath, required=True, help="Path to subset of downsampled and normalized input volumes")
+    parser.add_argument("-voldir", type=os.path.abspath, required=True, help="Path to subset of downsampled and normalized input volumes")
     parser.add_argument("-labels_csv", type=os.path.abspath, required=True, help="Path to .csv containing subset of normalized labels")
     parser.add_argument("-batch_size", type=int, required=False, default=4, help="Minibatch size")
     parser.add_argument("-num_epochs", type=int, required=False, default=5, help="Number of epochs")
@@ -35,7 +35,7 @@ def add_args(parser):
 
 def main(args):
     csv_path=args.labels_csv
-    vol_dir=args.vol_dir
+    voldir=args.voldir
     batch_size=args.batch_size
     epochs = args.num_epochs
     weights=args.weights
@@ -43,7 +43,7 @@ def main(args):
     outdir = args.outdir
     
     logging.info("Loading data")
-    ds = data.CustomDataset(csv_path, vol_dir)
+    ds = data.CustomDataset(csv_path, voldir)
     train, test, val = random_split(ds, [0.8, 0.1, 0.1])  
     torch.set_default_dtype(torch.float32)
     train_loader = torch.utils.data.DataLoader(train, batch_size = batch_size, shuffle = True)
