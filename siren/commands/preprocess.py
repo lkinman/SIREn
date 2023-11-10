@@ -22,8 +22,8 @@ def add_args(parser):
 
     parser.add_argument("-voldir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
     parser.add_argument("-labels", type=os.path.abspath, required=False, help="User-annotated labels for downsampled (non-normalized) volumes for normalization")
-    parser.add_argument("-outdir", type=os.path.abspath, required=True, help="Path to output directory for normalized volumes")
-    parser.add_argument("-outdir_downsampled", type=os.path.abspath, required=False, help="Path to output directory for downsampled volumes")
+    parser.add_argument("-outdir", type=os.path.abspath, default = './', required=True, help="Path to output directory for normalized volumes")
+    parser.add_argument("-outdir_downsampled", type=os.path.abspath, default = './', required=False, help="Path to output directory for downsampled volumes")
     return parser
 
 
