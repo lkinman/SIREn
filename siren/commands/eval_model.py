@@ -27,7 +27,7 @@ def add_args(parser):
     parser.add_argument("-labels", type=os.path.abspath, required=False, help="User-annotated labels for downsampled (non-normalized) volumes for evaluating model performance")
     parser.add_argument("-weights_file", required=True, help="Path to model weights (weights.pth or fine_tuned_weights.pth)")
     parser.add_argument("-batch_size", type=int, required=False, default=4, help="Minibatch size")
-    parser.add_argument("-outdir", type=os.path.abspath, default = './', required=True, help="Path to output directory")
+    parser.add_argument("-outdir", type='str', default = './', required=True, help="Path to output directory")
 
     return parser
 
@@ -38,7 +38,7 @@ def main(args):
     batch_size = args.batch_size
     labels = args.labels
     norm_df = args.normalize_csv
-    outdir = funcs.check_dir(args.outdir)
+    outdir = funcs.check_dir(args.outdir, make=True)
     
     if os.path.isdir(voldir):
         vol_list = natsorted(glob.glob(voldir + '/*.mrc'))  
