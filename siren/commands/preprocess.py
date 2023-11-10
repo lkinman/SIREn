@@ -41,7 +41,7 @@ def main(args):
     vol_max_list = []
     downsampled_boxsize = 64
 
-    if os.path.isdir(vol_dir):
+    if os.path.isdir(voldir):
         vol_list = natsorted(glob.glob(voldir + '/*.mrc'))  
     else:
         vol_list = [voldir,]
