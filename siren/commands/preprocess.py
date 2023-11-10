@@ -22,16 +22,16 @@ def add_args(parser):
 
     parser.add_argument("-voldir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
     parser.add_argument("-labels", type=os.path.abspath, required=False, help="User-annotated labels for downsampled (non-normalized) volumes for normalization")
-    parser.add_argument("-outdir", type=os.path.abspath, default = './', required=True, help="Path to output directory for normalized volumes")
-    parser.add_argument("-outdir_downsampled", type=os.path.abspath, default = './', required=False, help="Path to output directory for downsampled volumes")
+    parser.add_argument("-outdir", type='str', default = './', required=True, help="Path to output directory for normalized volumes")
+    parser.add_argument("-outdir_downsampled", type='str', default = './', required=False, help="Path to output directory for downsampled volumes")
     return parser
 
 
 def main(args):
     voldir = args.voldir
     labels = args.labels
-    outdir = funcs.check_dir(args.outdir)
-    outdir_downsampled = funcs.check_dir(args.outdir_downsampled)
+    outdir = funcs.check_dir(args.outdir + 'normalized/', make=True)
+    outdir_downsampled = funcs.check_dir(outdir + 'downsampled/', make = True)
 
     upper_thr = 99.999
     lower_thr = 0.001
