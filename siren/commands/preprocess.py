@@ -9,7 +9,7 @@ import argparse
 import glob
 import warnings 
 import logging
-from siren import utils
+from siren import utils, funcs
 import torch
 torch.manual_seed(42)
 from natsort import natsorted
@@ -20,7 +20,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] - %(
 
 def add_args(parser):
 
-    parser.add_argument("-vol_dir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
+    parser.add_argument("-voldir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
     parser.add_argument("-labels", type=os.path.abspath, required=False, help="User-annotated labels for downsampled (non-normalized) volumes for normalization")
     parser.add_argument("-outdir", type=os.path.abspath, required=True, help="Path to output directory for normalized volumes")
     parser.add_argument("-outdir_downsampled", type=os.path.abspath, required=False, help="Path to output directory for downsampled volumes")
@@ -28,11 +28,10 @@ def add_args(parser):
 
 
 def main(args):
-
     voldir = args.voldir
     labels = args.labels
-    outdir = args.outdir
-    outdir_downsampled = args.outdir_downsampled
+    outdir = funcs.check_dir(args.outdir)
+    outdir_downsampled = funcs.check_dir(args.outdir_downsampled)
 
     upper_thr = 99.999
     lower_thr = 0.001
@@ -43,9 +42,9 @@ def main(args):
     downsampled_boxsize = 64
 
     if os.path.isdir(vol_dir):
-        vol_list = natsorted(glob.glob(vol_dir + '/*.mrc'))  
+        vol_list = natsorted(glob.glob(voldir + '/*.mrc'))  
     else:
-        vol_list = [vol_dir,]
+        vol_list = [voldir,]
     
 
     logging.info("Loading data")
