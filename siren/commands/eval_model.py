@@ -22,12 +22,12 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] - %(
 
 def add_args(parser):
 
-    parser.add_argument("-voldir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
-    parser.add_argument("-normalize_csv", type=os.path.abspath, required=True, help="map_stats.csv (either downsampled or raw map stats)")
-    parser.add_argument("-labels", type=os.path.abspath, required=False, help="User-annotated labels for downsampled (non-normalized) volumes for evaluating model performance")
-    parser.add_argument("-weights_file", required=True, help="Path to model weights (weights.pth or fine_tuned_weights.pth)")
-    parser.add_argument("-batch_size", type=int, required=False, default=4, help="Minibatch size")
-    parser.add_argument("-outdir", type=str, default = './', required=True, help="Path to output directory")
+    parser.add_argument("--voldir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
+    parser.add_argument("--normalize_csv", type=os.path.abspath, required=True, help="map_stats.csv (either downsampled or raw map stats)")
+    parser.add_argument("--labels", type=os.path.abspath, required=False, help="User-annotated labels for downsampled (non-normalized) volumes for evaluating model performance")
+    parser.add_argument("--weights_file", required=True, help="Path to model weights (weights.pth or fine_tuned_weights.pth)")
+    parser.add_argument("--batch_size", type=int, required=False, default=4, help="Minibatch size")
+    parser.add_argument("--outdir", type=str, default = './', required=True, help="Path to output directory")
 
     return parser
 
