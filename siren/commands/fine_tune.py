@@ -28,7 +28,7 @@ def add_args(parser):
     parser.add_argument("-num_epochs", type=int, required=False, default=5, help="Number of epochs")
     parser.add_argument("-weights", required=True, help="Path to model weights")
     parser.add_argument("-lr", type=float, default=1e-6, required=False, help="Learning rate for fine-tuning")
-    parser.add_argument("-outdir", type=os.path.abspath, default = './', required=True, help="Path to output directory")
+    parser.add_argument("-outdir", type=str, default = './', required=True, help="Path to output directory")
 
     return parser
 
@@ -40,7 +40,7 @@ def main(args):
     epochs = args.num_epochs
     weights = args.weights
     learning_rate = args.lr
-    outdir = funcs.check_dir(args.outdir)
+    outdir = funcs.check_dir(args.outdir, make=True)
     
     logging.info("Loading data")
     ds = data.CustomDataset(csv_path, voldir)
