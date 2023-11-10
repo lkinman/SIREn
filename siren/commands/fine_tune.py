@@ -12,7 +12,7 @@ import matplotlib.pyplot as plt
 from torch.utils.data import random_split
 import argparse
 import logging
-from siren import model_cnn, data, utils
+from siren import model_cnn, data, utils, funcs
 import warnings 
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -34,13 +34,13 @@ def add_args(parser):
 
 
 def main(args):
-    csv_path=args.labels_csv
-    voldir=args.voldir
-    batch_size=args.batch_size
+    csv_path = args.labels_csv
+    voldir = args.voldir
+    batch_size = args.batch_size
     epochs = args.num_epochs
-    weights=args.weights
+    weights = args.weights
     learning_rate = args.lr
-    outdir = args.outdir
+    outdir = funcs.check_dir(args.outdir)
     
     logging.info("Loading data")
     ds = data.CustomDataset(csv_path, voldir)
