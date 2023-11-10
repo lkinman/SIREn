@@ -27,7 +27,7 @@ def add_args(parser):
     parser.add_argument("-labels", type=os.path.abspath, required=False, help="User-annotated labels for downsampled (non-normalized) volumes for evaluating model performance")
     parser.add_argument("-weights_file", required=True, help="Path to model weights (weights.pth or fine_tuned_weights.pth)")
     parser.add_argument("-batch_size", type=int, required=False, default=4, help="Minibatch size")
-    parser.add_argument("-outdir", type=os.path.abspath, required=True, help="Path to output directory")
+    parser.add_argument("-outdir", type=os.path.abspath, default = './', required=True, help="Path to output directory")
 
     return parser
 
