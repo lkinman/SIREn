@@ -24,7 +24,7 @@ def parse_args(parser):
     parser.add_argument("-labels_csv", type=os.path.abspath, required=True, help="Path to .csv containing normalized labels")
     parser.add_argument("-batch_size", type=int, required=False, default=8, help="Minibatch size")
     parser.add_argument("-num_epochs", type=int, required=False, default=10, help="Number of epochs")
-    parser.add_argument("-outdir", type=os.path.abspath, required=True, help="Path to output directory")
+    parser.add_argument("-outdir", type=str, default = './', required=True, help="Path to output directory")
 
     return parser
 
@@ -34,7 +34,7 @@ def main(args):
     vol_dir=args.vol_dir
     batch_size=args.batch_size
     epochs = args.num_epochs
-    outdir=args.outdir
+    outdir = funcs.check_dir(args.outdir, make=True)
 
     logging.info("Loading data")
     ds = data.CustomDataset(csv_path, vol_dir)
