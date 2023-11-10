@@ -22,7 +22,7 @@ logging.basicConfig(level=logging.INFO, format="%(asctime)s [%(levelname)s] - %(
 
 def add_args(parser):
 
-    parser.add_argument("-vol_dir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
+    parser.add_argument("-voldir", type=os.path.abspath, required=True, help="Path to input volume (.mrc) or directory containing volumes")
     parser.add_argument("-normalize_csv", type=os.path.abspath, required=True, help="map_stats.csv (either downsampled or raw map stats)")
     parser.add_argument("-labels", type=os.path.abspath, required=False, help="User-annotated labels for downsampled (non-normalized) volumes for evaluating model performance")
     parser.add_argument("-weights_file", required=True, help="Path to model weights (weights.pth or fine_tuned_weights.pth)")
@@ -34,7 +34,7 @@ def add_args(parser):
 
 def main(args):
 
-    vol_dir = args.vol_dir
+    voldir = args.voldir
     weights_file = args.weights_file
     batch_size = args.batch_size
     outdir = args.outdir
@@ -42,10 +42,10 @@ def main(args):
     norm_df = args.normalize_csv
 
 
-    if os.path.isdir(vol_dir):
-        vol_list = natsorted(glob.glob(vol_dir + '/*.mrc'))  
+    if os.path.isdir(voldir):
+        vol_list = natsorted(glob.glob(voldir + '/*.mrc'))  
     else:
-        vol_list = [vol_dir,]
+        vol_list = [voldir,]
     
     vol_array = np.empty(shape=(len(vol_list),64,64,64), dtype=np.float32)
     for i in range(len(vol_list)):
