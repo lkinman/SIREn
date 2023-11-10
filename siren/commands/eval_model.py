@@ -13,7 +13,7 @@ torch.manual_seed(42)
 import matplotlib.pyplot as plt
 import logging
 from natsort import natsorted
-from siren import utils, model_cnn
+from siren import utils, model_cnn, funcs
 import warnings 
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
@@ -33,15 +33,13 @@ def add_args(parser):
 
 
 def main(args):
-
     voldir = args.voldir
     weights_file = args.weights_file
     batch_size = args.batch_size
-    outdir = args.outdir
     labels = args.labels
     norm_df = args.normalize_csv
-
-
+    outdir = funcs.check_dir(args.outdir)
+    
     if os.path.isdir(voldir):
         vol_list = natsorted(glob.glob(voldir + '/*.mrc'))  
     else:
