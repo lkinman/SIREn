@@ -20,11 +20,11 @@ logging.basicConfig(format='%(asctime)s | %(message)s', level=logging.NOTSET)
 
 def parse_args(parser):
 
-    parser.add_argument("-vol_dir", type=os.path.abspath, required=True, help="Path to downsampled and normalized input volumes")
-    parser.add_argument("-labels_csv", type=os.path.abspath, required=True, help="Path to .csv containing normalized labels")
-    parser.add_argument("-batch_size", type=int, required=False, default=8, help="Minibatch size")
-    parser.add_argument("-num_epochs", type=int, required=False, default=10, help="Number of epochs")
-    parser.add_argument("-outdir", type=str, default = './', required=True, help="Path to output directory")
+    parser.add_argument("--vol_dir", type=os.path.abspath, required=True, help="Path to downsampled and normalized input volumes")
+    parser.add_argument("--labels_csv", type=os.path.abspath, required=True, help="Path to .csv containing normalized labels")
+    parser.add_argument("--batch_size", type=int, required=False, default=8, help="Minibatch size")
+    parser.add_argument("--num_epochs", type=int, required=False, default=10, help="Number of epochs")
+    parser.add_argument("--outdir", type=str, default = './', required=True, help="Path to output directory")
 
     return parser
 
