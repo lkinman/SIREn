@@ -58,21 +58,21 @@ siren preprocess --help
 
 optional arguments:
   -h, --help            show this help message and exit
-  -voldir VOLDIR        Path to input volume (.mrc) or directory containing volumes
-  -labels LABELS        User-annotated labels for downsampled (non-normalized) volumes for normalization
-  -outdir OUTDIR        Path to output directory for normalized volumes
-  -outdir_downsampled OUTDIR_DOWNSAMPLED
+  --voldir VOLDIR        Path to input volume (.mrc) or directory containing volumes
+  --labels LABELS        User-annotated labels for downsampled (non-normalized) volumes for normalization
+  --outdir OUTDIR        Path to output directory for normalized volumes
+  --outdir_downsampled OUTDIR_DOWNSAMPLED
                         Path to output directory for downsampled volumes
 ```  
 e.g.
   
 ```
-siren preprocess -voldir reconstruct_000000 -outdir cnn_outputs
+siren preprocess --voldir reconstruct_000000 --outdir cnn_outputs
 ```  
  or, if volumes are provided with box size > 64,
 
 ```  
-siren preprocess -voldir reconstruct_000000 -outdir cnn_outputs -outdir_downsampled cnn_outputs/downsampled
+siren preprocess --voldir reconstruct_000000 --outdir cnn_outputs -outdir_downsampled cnn_outputs/downsampled
 ```  
 
 **2) Predict the binarization threshold for each map, and assess the quality of model predictions on provided volumes**
@@ -82,15 +82,15 @@ siren eval_model --help
 
 optional arguments:
   -h, --help            show this help message and exit
-  -voldir VOLDIR        Path to input volume (.mrc) or directory containing volumes
-  -normalize_csv NORMALIZE_CSV
+  --voldir VOLDIR        Path to input volume (.mrc) or directory containing volumes
+  --normalize_csv NORMALIZE_CSV
                         map_stats.csv (either downsampled or raw map stats)
-  -labels LABELS        User-annotated labels for downsampled (non-normalized) volumes for evaluating model performance
-  -weights_file WEIGHTS_FILE
+  --labels LABELS        User-annotated labels for downsampled (non-normalized) volumes for evaluating model performance
+  --weights_file WEIGHTS_FILE
                         Path to model weights (weights.pth or fine_tuned_weights.pth)
-  -batch_size BATCH_SIZE
+  --batch_size BATCH_SIZE
                         Minibatch size
-  -outdir OUTDIR        Path to output directory
+  --outdir OUTDIR        Path to output directory
 ```  
   
 e.g.
