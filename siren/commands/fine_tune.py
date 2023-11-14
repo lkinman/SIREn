@@ -23,7 +23,7 @@ logging.basicConfig(format='%(asctime)s | %(message)s', level=logging.NOTSET)
 def add_args(parser):
 
     parser.add_argument("--voldir", type=os.path.abspath, required=True, help="Path to subset of downsampled and normalized input volumes")
-    parser.add_argument("--labels_csv", type=os.path.abspath, required=True, help="Path to .csv containing subset of normalized labels")
+    parser.add_argument("--labels", type=os.path.abspath, required=True, help="Path to .csv containing subset of normalized labels")
     parser.add_argument("--batch_size", type=int, required=False, default=4, help="Minibatch size")
     parser.add_argument("--num_epochs", type=int, required=False, default=5, help="Number of epochs")
     parser.add_argument("--weights", required=True, help="Path to model weights")
@@ -34,7 +34,7 @@ def add_args(parser):
 
 
 def main(args):
-    csv_path = args.labels_csv
+    csv_path = args.labels
     voldir = args.voldir
     batch_size = args.batch_size
     epochs = args.num_epochs
