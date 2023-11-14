@@ -55,7 +55,7 @@ def main(args):
             vol_d = utils.downsample(vol, downsampled_boxsize, boxsize)
             vol_norm, vol_min, vol_max = utils.normalize(vol, upper_thr, lower_thr)
             basename = os.path.basename(filename)
-            outname = os.path.join(utdir_downsampled, basename) 
+            outname = os.path.join(outdir_downsampled, basename) 
             downsampled_angpix = pixel_size*boxsize/downsampled_boxsize
             utils.write(vol_d, outname, downsampled_angpix)
             vol_min_list.append(vol_min)
