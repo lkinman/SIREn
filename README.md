@@ -13,7 +13,8 @@ conda install pandas jupyterlab matplotlib scipy
 pip install networkx 2.6.3
 pip install mrcfile
 pip install natsort
-pip install torch  
+pip install torch==2.0
+
 ```
 Note that the appropriate version of torch to install will depend on your system setup; make sure your torch version is compatible with your CUDA drivers. You can check your CUDA version with ```nvidia-smi```.
 
