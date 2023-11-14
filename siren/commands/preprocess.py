@@ -105,7 +105,7 @@ def main(args):
             df1.loc[i, 'normalized_label'] = label_norm 
         
         merged_df = pd.merge(df1, df, on='vol_id', how='left')
-        file_name = 'transformed_labels.csv'
+        file_name = 'normalized_labels.csv'
         outfile = os.path.join(outdir, file_name)
         merged_df.to_csv(outfile) 
 
