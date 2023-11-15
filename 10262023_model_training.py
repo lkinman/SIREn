@@ -41,13 +41,6 @@ def main(args):
     train, test, val = random_split(ds, [0.8, 0.1, 0.1]) 
     torch.set_default_dtype(torch.float32)
     train_loader = torch.utils.data.DataLoader(train, batch_size = batch_size, shuffle = True)
-
-    logging.info("Saving training data as .pkl")
-    output_file = f'{args.outdir}/train.pkl'
-    train_data = list(train_loader)
-
-    with open(output_file, 'wb') as f:
-        pickle.dump(train_data, f)
     
     logging.info("Loading model")
     model = model_cnn.CNNModel()
