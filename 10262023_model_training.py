@@ -45,7 +45,7 @@ def main(args):
     logging.info("Loading model")
     model = model_cnn.CNNModel()
     error = nn.MSELoss() 
-    learning_rate =  0.00001  
+    learning_rate = 5e-6  
     optimizer = torch.optim.Adam(model.parameters(), lr=learning_rate, weight_decay=0) 
     scaler = torch.cuda.amp.GradScaler()
 
