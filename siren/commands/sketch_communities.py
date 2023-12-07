@@ -45,7 +45,8 @@ def main(args):
     sketch_outdir = funcs.check_dir(outdir + '00_sketch/', make = True)
     voldir = funcs.check_dir(args.voldir)
 
-    vol_list = np.sort(glob.glob(voldir + '*.mrc'))
+    vol_list = glob.glob(voldir + '*.mrc')
+    vol_list.sort(key=lambda x: int(os.path.basename(x).split('_')[-1].split('.mrc')[0]))
     num_vols = len(vol_list)
     boxsize = utils.load_vol(vol_list[0])[0].shape[0]
     num_voxels = boxsize**3
