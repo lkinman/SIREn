@@ -37,7 +37,8 @@ def main(args):
     else:
         filter_vols = False
 
-    vol_list = np.sort(glob.glob(voldir + '*.mrc'))
+    vol_list = glob.glob(voldir + '*.mrc')
+    vol_list.sort(key=lambda x: int(os.path.basename(x).split('_')[-1].split('.mrc')[0]))
     num_vols_orig = len(vol_list)
     boxsize = utils.load_vol(vol_list[0])[0].shape[0]
     num_voxels = boxsize**3
