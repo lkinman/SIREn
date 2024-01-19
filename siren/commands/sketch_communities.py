@@ -51,6 +51,8 @@ def main(args):
     boxsize = utils.load_vol(vol_list[0])[0].shape[0]
     num_voxels = boxsize**3
     binned, union_voxels, vols_added = funcs.binarize_vol_array(vol_list, num_vols, num_voxels, bin_thr, filter_bin = filter_vols)
+    if len(vols_added) > 0:
+        num_vols = len(vols_added)
     map_array = funcs.create_mapping(vol_list, union_voxels)
     totals = np.sum(binned, axis = 0)
     vals = range(0, len(union_voxels))
