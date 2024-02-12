@@ -27,7 +27,7 @@ def add_args(parser):
     parser.add_argument('--negp', type = float, default = 0.05, help = 'P value threshold before Bonferroni correction for negative co-occupancy')
     parser.add_argument('--binfile', type = str, default = None, help = 'csv file containing predicted binarization thresholds')
     parser.add_argument('--filter', action = 'store_true', help = 'If predicted binarization file is supplied, this flage indicates that volumes should be filtered by avg +/- 2 std of predicted threshold')
-    parser.add_argument('--subsample', type = int, default = 3, help = 'divisor for subsampling voxels')
+    parser.add_argument('--subsample', type = int, default = 2, help = 'divisor for subsampling voxels')
     return parser
 
 def main(args):
