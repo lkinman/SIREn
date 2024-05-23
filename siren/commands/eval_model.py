@@ -56,10 +56,10 @@ def main(args):
     data_generator = torch.utils.data.DataLoader(vol_array, batch_size = batch_size, shuffle=False)
 
     logging.info("Loading model")
-    model = model_cnn.CNNModel()
-    checkpoint = torch.load(weights_file)
-    model.load_state_dict(checkpoint['model_state_dict'])
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device('cpu')
+    model = model_cnn.CNNModel()
+    checkpoint = torch.load(weights_file, map_location=device)
+    model.load_state_dict(checkpoint['model_state_dict'])
 
     model = model.to(device)
     logging.info("Making predictions")
