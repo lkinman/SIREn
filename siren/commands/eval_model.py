@@ -57,14 +57,11 @@ def main(args):
 
     logging.info("Loading model")
     model = model_cnn.CNNModel()
-    optimizer = torch.optim.Adam(model.parameters())
     checkpoint = torch.load(weights_file)
     model.load_state_dict(checkpoint['model_state_dict'])
     device = torch.device("cuda") if torch.cuda.is_available() else torch.device('cpu')
-    optimizer.load_state_dict(torch.load(weights_file)['optimizer_state_dict'])
 
     model = model.to(device)
- 
     logging.info("Making predictions")
     pred_list = utils.model_pred(model, data_generator, device)
 
