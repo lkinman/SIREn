@@ -148,7 +148,7 @@ optional arguments:
 e.g.
   
 ```
-siren sketch_communities --voldir reconstruct_000000 --threads 20 --binfile cnn_outputs/predictions.csv --outdir 01_siren 
+siren sketch_communities --voldir reconstruct_000000 --apix XX --threads 20 --binfile cnn_outputs/predictions.csv --outdir 01_siren 
 
 ```  
 
