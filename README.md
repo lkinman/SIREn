@@ -7,10 +7,10 @@ SIREn is a toolkit for analyzing heterogeneity in 3D volume ensembles generated 
 ## Installing  
 First create a conda environment for SIREn, as shown below:
 ```
-conda create --name siren python=3.9
+conda create --name siren python=3.10
 conda activate siren
 conda install pandas jupyterlab matplotlib scipy
-pip install networkx 2.6.3
+pip install networkx 
 pip install mrcfile
 pip install natsort
 pip install torch==2.0
