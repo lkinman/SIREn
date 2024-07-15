@@ -10,7 +10,7 @@ First create a conda environment for SIREn, as shown below:
 conda create --name siren python=3.10
 conda activate siren
 conda install pandas jupyterlab matplotlib scipy
-pip install networkx 
+pip install networkx 3
 pip install mrcfile
 pip install natsort
 pip install torch==2.0
