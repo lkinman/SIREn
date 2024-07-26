@@ -10,13 +10,14 @@ First create a conda environment for SIREn, as shown below:
 conda create --name siren python=3.10
 conda activate siren
 conda install pandas jupyterlab matplotlib scipy
+conda install pytorch torchvision torchaudio pytorch-cuda=11.8 -c pytorch -c nvidia
 pip install networkx 3
 pip install mrcfile
 pip install natsort
 pip install torch==2.0
 
 ```
-Note that the appropriate version of torch to install will depend on your system setup; make sure your torch version is compatible with your CUDA drivers. You can check your CUDA version with ```nvidia-smi```.
+Note that the appropriate version of torch and pytorch to install will depend on your system setup; make sure your torch version is compatible with your CUDA drivers. You can check your CUDA version with ```nvidia-smi```.
 
 It is recommended that you install ChimeraX (install instructions can be found [here](https://www.cgl.ucsf.edu/chimera/download.html)) in order to visualize the structural blocks resulting from your SIREn analysis.
 
