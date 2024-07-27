@@ -13,6 +13,7 @@ from siren import utils, funcs
 import torch
 torch.manual_seed(42)
 from natsort import natsorted
+import time
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
@@ -27,6 +28,8 @@ def add_args(parser):
 
 
 def main(args):
+    t0 = time.time()
+    
     voldir = args.voldir
     labels = args.labels
     outdir = funcs.check_dir(args.outdir + 'normalized/', make=True)
@@ -108,7 +111,9 @@ def main(args):
         file_name = 'normalized_labels.csv'
         outfile = os.path.join(outdir, file_name)
         merged_df.to_csv(outfile) 
-
+    
+    t_final = time.time() - t0
+    print(f'total run time: {t_final}s')
 
 if __name__ == '__main__':    
     parser = argparse.ArgumentParser()
