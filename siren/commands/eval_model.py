@@ -15,6 +15,7 @@ import logging
 from natsort import natsorted
 from siren import utils, model_cnn, funcs
 import warnings 
+import time
 
 warnings.filterwarnings("ignore", category=RuntimeWarning)
 
@@ -33,6 +34,8 @@ def add_args(parser):
 
 
 def main(args):
+    t0 = time.time()
+    
     voldir = args.voldir
     weights_file = args.weights_file
     batch_size = args.batch_size
@@ -92,6 +95,9 @@ def main(args):
         plt.savefig(outfile)  
         plt.show()
 
+    t_final = time.time() - t0
+    print(f'total run time: {t_final}s')
+    
 if __name__ == '__main__':    
     parser = argparse.ArgumentParser()
     main(add_args(parser).parse_args())
