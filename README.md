@@ -69,7 +69,7 @@ optional arguments:
 e.g.
   
 ```
-siren preprocess --voldir reconstruct_000000 --outdir cnn_outputs
+siren preprocess --voldir reconstruct_000000 --outdir cnn_outputs/
 ```  
 
 **2) Predict the binarization threshold for each map, and assess the quality of model predictions on provided volumes**
