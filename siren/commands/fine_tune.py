@@ -7,7 +7,7 @@ import torch
 torch.manual_seed(42)  
 import torch.nn as nn
 from torch.optim import *
-#import PyQt5
+import PyQt5
 import matplotlib.pyplot as plt
 from torch.utils.data import random_split
 import argparse
