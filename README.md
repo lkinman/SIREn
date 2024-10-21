@@ -15,7 +15,6 @@ pip install networkx 3
 pip install mrcfile
 pip install natsort
 pip install torch==2.0
-
 ```
 Note that the appropriate version of torch and pytorch to install will depend on your system setup; make sure your torch version is compatible with your CUDA drivers. You can check your CUDA version with ```nvidia-smi```.
 
