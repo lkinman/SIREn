@@ -78,7 +78,7 @@ siren eval_model --help
 
 optional arguments:
   -h, --help            show this help message and exit
-  --voldir VOLDIR        Path to input volume (.mrc) or directory containing volumes
+  --voldir VOLDIR        Path to input volume (.mrc) or directory containing normalized volumes
   --normalize_csv NORMALIZE_CSV
                         map_stats.csv (either downsampled or raw map stats)
   --labels LABELS        User-annotated labels for downsampled (non-normalized) volumes for evaluating model performance
