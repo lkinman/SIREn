@@ -32,7 +32,7 @@ def main(args):
     
     voldir = args.voldir
     labels = args.labels
-    outdir = funcs.check_dir(args.outdir + 'normalized/', make=True)
+    outdir = funcs.check_dir(funcs.check_dir(args.outdir, make=False) + 'normalized/', make=True)
     outdir_downsampled = funcs.check_dir(outdir + 'downsampled/', make = True)
 
     upper_thr = 99.999
