@@ -173,7 +173,7 @@ optional arguments:
  e.g.   
    
  ```
-siren expand_communities --config 01_sire/00_sketch/config.pkl --blockdir 01_siren/00_sketch --threads 20
+siren expand_communities --config 01_siren/00_sketch/config.pkl --blockdir 01_siren/00_sketch --threads 20
 
  ```  
 
