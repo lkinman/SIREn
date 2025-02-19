@@ -11,6 +11,8 @@ def binarize_vol_array(vols_list, vols_num, voxels_num, bin_thr, filter_bin = Fa
     if type(bin_thr) == float:
         vols_added = None
         for i, vol in enumerate(vols_list):
+            vol_data,_ = load_vol(vol)
+            assert vol_data.shape[0]==vol_data.shape[1]==vol_data.shape[2], 'Input maps must be cubic'
             vol_array[i] = utils.load_vol(vol)[0].flatten()
         binned_array = np.where(vol_array > bin_thr, 1, 0)
     elif type(bin_thr) == str:
