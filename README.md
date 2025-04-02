@@ -193,5 +193,5 @@ siren sketch_communities --voldir cnn_outputs/normalized/downsampled --threads 2
 siren expand_communities --config siren_outputs/00_sketch/config.pkl --blockdir siren_outputs/00_sketch --threads 20
 ```
 
-The expected outputs are two directories, ```cnn_outputs``` and ```siren_outputs```. The former should contains a directory ```normalized``` holding the normalized maps, and a subdirectory ```downsampled``` with all the non-normalized downsampled maps, as well as a file ```predictions.csv``` that contains a predicted threshold for every downsampled volume. The latter should have two subdirectories, ```00_sketch``` and ```02_expand``` with the blocks produced by SIREn after the initial and expansion steps. 
+The expected outputs are two directories, ```cnn_outputs``` and ```siren_outputs```. The former should contains a directory ```normalized``` holding the normalized maps and a subdirectory ```downsampled``` with all the non-normalized downsampled maps, as well as a file ```predictions.csv``` that contains a predicted threshold for every downsampled volume. The latter should have two subdirectories, ```00_sketch``` and ```02_expand``` with the blocks produced by SIREn after the initial and expansion steps. 
 
