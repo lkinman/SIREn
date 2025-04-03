@@ -187,9 +187,9 @@ Users are recommended to first view the structural blocks directly in ChimeraX, 
 For users wishing to test a SIREn install, we recommend using the 500 volume ensemble we have deposited [here](https://zenodo.org/records/5164127) in precomputed-03_occupancy_analysis > 00_aligned > reconstruct_000000 and the following commands. Note that the path to the 3D-CNN weights and the number of threads will have to be adjusted for your system. 
 
 ```
-siren preprocess --voldir reconstruct_000000 --outdir cnn_outputs
+siren preprocess --voldir reconstruct_000000 --outdir cnn_outputs/
 siren eval_model --voldir cnn_outputs/normalized --normalize_csv cnn_outputs/normalized/map_stats_downsampled.csv --weights weights_5e6.pth --outdir cnn_outputs
-siren sketch_communities --voldir cnn_outputs/normalized/downsampled --threads 20 --apix X --binfile cnn_outputs/predictions.csv --outdir siren_outputs
+siren sketch_communities --voldir cnn_outputs/normalized/downsampled --threads 20 --apix 6.55 --binfile cnn_outputs/predictions.csv --outdir siren_outputs
 siren expand_communities --config siren_outputs/00_sketch/config.pkl --blockdir siren_outputs/00_sketch --threads 20
 ```
 
