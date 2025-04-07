@@ -26,6 +26,6 @@ setuptools.setup(
         'matplotlib>=3.0.0',
         'torch',
         'mrcfile',
-        'natsort']
-
+        'natsort',
+        'PyQt5']
 )
