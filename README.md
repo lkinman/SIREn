@@ -62,8 +62,7 @@ optional arguments:
   --voldir VOLDIR        Path to input volume (.mrc) or directory containing volumes
   --labels LABELS        User-annotated labels for downsampled (non-normalized) volumes for normalization
   --outdir OUTDIR        Path to output directory for normalized volumes
-  --outdir_downsampled OUTDIR_DOWNSAMPLED
-                        Path to output directory for downsampled volumes
+
 ```  
 e.g.
   
